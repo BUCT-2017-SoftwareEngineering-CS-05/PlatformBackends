@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "JSON Schema for my JSON file format",
+
+  "type": "array",
+  "items": {
+    "properties": {
+      "site": {
+        "type": "string",
+        "description": "待爬网站列表."
+      },
+      "structurehint": {
+        "type": "array",
+        "description": "新闻数据提取提示.",
+        "items": {
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "数据项名称."
+            },
+            "hint": {
+              "type": "string",
+              "description": "数据项在网页中的位置."
+            }
+          }
+        }
+      }
+    }
+  }
+}

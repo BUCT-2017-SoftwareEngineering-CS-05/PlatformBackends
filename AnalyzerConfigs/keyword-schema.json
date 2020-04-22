@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "JSON Schema for my JSON file format",
+
+  "type": "array",
+  "items": {
+    "type": "string",
+    "description": "²©Îï¹ÝÃû¹Ø¼ü×Ö"
+  }
+  
+}
