@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -83,6 +83,14 @@ namespace Analyzer.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetNews", new { id = news.Id }, news);
+        }
+        [HttpPost("bunch")]
+        public async Task<int> PostBunchNews([FromBody]News[] news)
+        {
+            _context.News.AddRange(news);
+            var count = await _context.SaveChangesAsync();
+
+            return count;
         }
 
         // DELETE: api/News/5

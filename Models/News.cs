@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +12,7 @@ namespace Analyzer.Models
         public string Content { get; set; }
         public string Museum { get; set; }
         public string Publishtime { get; set; }
+        public string Source { get; set; }
         public string Analyseresult { get; set; }
     }
 }
