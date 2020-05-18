@@ -85,7 +85,7 @@ namespace Analyzer.Controllers
             return CreatedAtAction("GetNews", new { id = news.Id }, news);
         }
         [HttpPost("bunch")]
-        public async Task<int> PostBunchNews([FromBody]News[] news)
+        public async Task<int> PostBunchNews(News[] news)
         {
             _context.News.AddRange(news);
             var count = await _context.SaveChangesAsync();
