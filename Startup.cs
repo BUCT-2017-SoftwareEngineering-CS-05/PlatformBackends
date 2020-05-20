@@ -27,8 +27,14 @@ namespace Analyzer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<NewsContext>(opt =>
-               opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<UserContext>(opt =>opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CommentContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<Museum_InformationContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<maintableContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CollectionContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ExhibitionContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<EducationContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<NewsContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
         }
 
