@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace Analyzer.Models
+namespace MPBackends.Models
 {
     public class Museum_InformationContext : DbContext
     {

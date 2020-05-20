@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Analyzer.Migrations
+namespace MPBackends.Migrations
 {
     public partial class InitialCreate : Migration
     {

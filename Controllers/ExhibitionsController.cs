@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Analyzer.Models;
+using MPBackends.Models;
 
-namespace Analyzer.Controllers
+namespace MPBackends.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

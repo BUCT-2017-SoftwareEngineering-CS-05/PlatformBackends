@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Analyzer.Migrations
+namespace MPBackends.Migrations
 {
     public partial class TraceNewsSource : Migration
     {

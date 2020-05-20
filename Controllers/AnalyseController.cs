@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Baidu.Aip.Nlp;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Analyzer.Models;
+using MPBackends.Models;
 using Newtonsoft.Json;
 
-namespace Analyzer.Controllers
+namespace MPBackends.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

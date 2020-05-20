@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Analyzer.Controllers
+namespace MPBackends.Controllers
 {
     [Route("api/[controller]")]
     public class ConfigurationController : Controller
