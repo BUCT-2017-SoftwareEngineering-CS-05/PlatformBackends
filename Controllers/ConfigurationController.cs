@@ -5,6 +5,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using MPBackends.Models;
+using System.Text.RegularExpressions;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +15,11 @@ namespace MPBackends.Controllers
     [Route("api/[controller]")]
     public class ConfigurationController : Controller
     {
+        private maintableContext _maintableContext;
+        public ConfigurationController(maintableContext maintableContext)
+        {
+            _maintableContext = maintableContext;
+        }
         const string configRoutes = "AnalyzerConfigs/";
         // GET: /<controller>/
         public IActionResult Index()
@@ -75,21 +82,25 @@ namespace MPBackends.Controllers
         }
 
         [HttpGet("keywords")]
-        public ActionResult GetKeywordsConfig()
+        public ActionResult<IEnumerable<string>> GetKeywordsConfig()
         {
-            FileStream stream = new FileStream(configRoutes + "keywords.json", FileMode.Open);
-            return File(stream, "application/json");
-        }
-        [HttpPut("keywords")]
-        public ActionResult PutKeywordsConfig(string config)
-        {
-            System.IO.File.Copy(configRoutes + "keywords.json", configRoutes + "keywords.bak.json", true);
-            var fs = new FileStream(configRoutes + "keywords.json", FileMode.Truncate);
+            var keys =(from m in _maintableContext.maintable select m.mname).ToList();
+            
+            return keys;
+            //FileStream stream = new FileStream(configRoutes + "keywords.json", FileMode.Open);
+            //return keys;
 
-            byte[] bs = Encoding.ASCII.GetBytes(config);
-            fs.Write(bs.AsSpan());
-            fs.Flush(); fs.Close();
-            return GetKeywordsConfig();
         }
+        //[HttpPut("keywords")]
+        //public ActionResult PutKeywordsConfig(string config)
+        //{
+        //    System.IO.File.Copy(configRoutes + "keywords.json", configRoutes + "keywords.bak.json", true);
+        //    var fs = new FileStream(configRoutes + "keywords.json", FileMode.Truncate);
+
+        //    byte[] bs = Encoding.ASCII.GetBytes(config);
+        //    fs.Write(bs.AsSpan());
+        //    fs.Flush(); fs.Close();
+        //    return GetKeywordsConfig();
+        //}
     }
 }
