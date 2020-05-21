@@ -7,6 +7,7 @@ using Baidu.Aip.Nlp;
 using Microsoft.EntityFrameworkCore;
 using MPBackends.Models;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MPBackends.Controllers
 {
@@ -41,7 +42,26 @@ namespace MPBackends.Controllers
                 var client = new Nlp(API_KEY, SECRET_KEY);
                 client.Timeout = 60000;  // 修改超时时间
 
-                var result = client.SentimentClassify(news.Content);
+                string src = news.Content;
+                if (news.Content.Length > 1020)
+                {
+                    if (news.Content.Length > 2980)
+                    {
+                        _ = src.Substring(0, 2980);
+                    }
+                    var content = src;
+
+                    var maxSummaryLen = 300;
+                    // 如果有可选参数
+                    var options = new Dictionary<string, object>{
+                        {"title", news.Title}
+                    };
+                    // 带参数调用新闻摘要接口
+                    var ress = client.NewsSummary(content, maxSummaryLen, options);
+                    Console.WriteLine(ress);
+                    src = (string)ress["summary"];
+                }
+                var result = client.SentimentClassify(src);
                 String[] res = { "negative", "neutral", "positive" };
                 if (result.ContainsKey("error_code"))
                 {
