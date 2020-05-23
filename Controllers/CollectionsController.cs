@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using MPBackends.Models;
 
@@ -11,7 +12,7 @@ namespace MPBackends.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CollectionsController : ControllerBase
+    public class CollectionsController : Controller
     {
         private readonly CollectionContext _context;
 
@@ -129,6 +130,36 @@ namespace MPBackends.Controllers
         private bool CollectionExists(int id)
         {
             return _context.Collection.Any(e => e.midex == id);
+        }
+
+
+
+
+
+        //the following is about museum guide subsysytem
+        //GET:  MuseumTourBackEnd/Collection/CollectionList
+        [HttpGet]
+        [Route("CollectionList")]
+        public JsonResult CollectionList([FromQuery] int midex)
+        {
+            return Json(_context.Collection.Where(m => m.midex == midex)
+                .Select(m => new { oid = m.oid, oname = m.oname }).ToList());
+        }
+
+        //GET: MuseumTourBackEnd/Collection/SingleColleciotnInstruction
+        [HttpGet]
+        [Route("SingleColleciotnInstruction")]
+        public JsonResult SingleColleciotnInstruction([FromQuery] int oid)
+        {
+            return Json(_context.Collection.FirstOrDefault(m => m.oid == oid));
+        }
+
+        //GET: MuseumTourBackEnd/Collection/CollectionAllDetails
+        [HttpGet]
+        [Route("CollectionAllDetails")]
+        public JsonResult CollectionAllDetails([FromQuery] int midex)
+        {
+            return Json(_context.Collection.Where(m => m.midex == midex).ToList());
         }
     }
 }

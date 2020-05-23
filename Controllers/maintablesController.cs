@@ -11,7 +11,7 @@ namespace MPBackends.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class maintablesController : ControllerBase
+    public class maintablesController : Controller
     {
         private readonly maintableContext _context;
         private readonly CommentContext _contexttt;
@@ -295,6 +295,46 @@ namespace MPBackends.Controllers
         private bool maintableExists(int id)
         {
             return _context.maintable.Any(e => e.midex == id);
+        }
+
+
+
+
+        //the following is museum guide subsystem
+        //Post: MuseumTourBackEnd/maintable/MuseumFirstPageId 根据博物馆id查name和base
+        [HttpPost]
+        [Route("MuseumFirstPageId")]
+        public JsonResult MuseumFirstPageId([FromBody] maintable maintable)
+        {
+            var Mbase = "Not found";
+            var Mname = "Not found";
+            var searchMuseum = _context.maintable.FirstOrDefault(m => m.midex == maintable.midex);
+
+            if (searchMuseum != null)
+            {
+                Mname = searchMuseum.mname;
+                Mbase = searchMuseum.mbase;
+            }
+            var returnMesg = new { mname = Mname, mbase = Mbase };
+            return Json(returnMesg);
+        }
+
+        //Get: MuseumTourBackEnd/maintable/AllMuseums 返回所有博物馆的id+name+base
+        [HttpGet]
+        [Route("AllMuseums")]
+        public JsonResult AllMuseums()
+        {
+            return Json(new { _context.maintable });
+        }
+
+        //Get: MuseumTourBackEnd/maintable/MuseumFirstPageName 根据关键字模糊查询博物馆信息
+        [HttpGet]
+        [Route("MuseumFirstPageName")]
+        public JsonResult MuseumFirstPageName([FromBody] maintable maintable)
+        {
+
+            var searchMuseum = _context.maintable.Where(m => m.mname.Contains(maintable.mname));
+            return Json(new { searchMuseum });
         }
     }
 }

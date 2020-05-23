@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using MPBackends.Models;
 
@@ -11,7 +12,7 @@ namespace MPBackends.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExhibitionsController : ControllerBase
+    public class ExhibitionsController : Controller
     {
         private readonly ExhibitionContext _context;
 
@@ -129,6 +130,54 @@ namespace MPBackends.Controllers
         private bool ExhibitionExists(int id)
         {
             return _context.Exhibition.Any(e => e.midex == id);
+        }
+
+
+
+
+        //the following is about museum guide subsystem
+        //Get: MuseumTourBackEnd/Exhibition/AllExhibitions 返回所有的展览
+        [HttpGet]
+        [Route("AllExhibitions")]
+        public JsonResult AllExhibitions()
+        {
+            return Json(new { _context.Exhibition });
+        }
+
+        //Post: MuseumTourBackEnd/Exhibition/ExhibitionsOfMidex 根据博物馆id查询该馆展览
+        [HttpPost]
+        [Route("ExhibitionsOfMidex")]
+        public JsonResult ExhibitionsOfMidex([FromBody] Exhibition E)
+        {
+            var search = _context.Exhibition.Where(e => e.midex == E.midex);
+            return Json(new { search });
+        }
+
+        //Post: MuseumTourBackEnd/Exhibition/SearchByeid 根据展览id查询该展览其他信息
+        [HttpPost]
+        [Route("SearchByeid")]
+        public JsonResult SearchByeid([FromBody] Exhibition E)
+        {
+            int Midex = 0;
+            var Ename = "Not found";
+            var Eintro = "Not found";
+            var search = _context.Exhibition.FirstOrDefault(m => m.eid == E.eid);
+            if (search != null)
+            {
+                Midex = search.midex;
+                Ename = search.ename;
+                Eintro = search.eintro;
+            }
+            return Json(new { midex = Midex, ename = Ename, eintro = Eintro });
+        }
+
+        //Get: MuseumTourBackEnd/Exhibition/SearchByName 根据关键字模糊查询所有名称符合的展览
+        [HttpGet]
+        [Route("SearchByName")]
+        public JsonResult SearchByName([FromBody] Exhibition E)
+        {
+            var search = _context.Exhibition.Where(e => e.ename.Contains(E.ename));
+            return Json(new { search });
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using MPBackends.Models;
 
@@ -11,7 +12,7 @@ namespace MPBackends.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CommentsController : ControllerBase
+    public class CommentsController : Controller
     {
         private readonly CommentContext _context;
 
@@ -134,7 +135,7 @@ namespace MPBackends.Controllers
 
         // GET: api/Comments/midex/{midex}
         [HttpGet("midex/{id:int}")]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetByMidex(int id)
+        public async Task<ActionResult<IEnumerable<Comment>>> GetBymidex(int id)
         {
             var comment = await _context.Comment
                                 .Where(b => b.midex == id)
@@ -206,6 +207,38 @@ namespace MPBackends.Controllers
         private bool CommentExists(int id)
         {
             return _context.Comment.Any(e => e.midex == id);
+        }
+
+
+
+
+        //the following is about museum guide subsystem
+        //GET: MuseumTourBackEnd/Collection/AllCommentDetails
+        [HttpGet]
+        [Route("AllCommentDetails")]
+        public JsonResult AllCommentDetails([FromQuery] int midex)
+        {
+            return Json(_context.Comment.Where(m => m.midex == midex).ToList());
+        }
+
+        //POST: MuseumTourBackEnd/Collection/Create
+        [HttpPost]
+        [Route("Create")]
+        public JsonResult Create([FromBody] Comment newComment)
+        {
+            var searchComment = _context.Comment
+                .FirstOrDefault(m => m.midex == newComment.midex && m.userid == newComment.userid);
+            int flag = 1;
+            if (searchComment != null)
+            {
+                flag = 0;
+            }
+            else
+            {
+                _context.Comment.Add(newComment);
+                _context.SaveChanges();
+            }
+            return Json(new { status = flag });
         }
     }
 }

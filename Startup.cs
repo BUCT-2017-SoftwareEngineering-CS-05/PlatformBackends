@@ -27,6 +27,7 @@ namespace MPBackends
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<UploadvideoContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<UserContext>(opt =>opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<CommentContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<Museum_InformationContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
