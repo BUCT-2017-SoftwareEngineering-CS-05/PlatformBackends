@@ -148,20 +148,13 @@ namespace MPBackends.Controllers
             return Json(returnMesg);
         }
 
-        //POST: MuseumTourBackEnd/User/Loogin
+        //POST: MuseumTourBackEnd/User/Login
         [HttpPost]
         [Route("Login")]
-        public JsonResult Login([FromBody] JObject jsonObj)
+        public JsonResult Login([FromBody] User user)
         {
-            //序列化JObject对象为Json字符串
-            var jsonStr = JsonConvert.SerializeObject(jsonObj);
-            //反序列化Json字符串为动态Object
-            var objParams = JsonConvert.DeserializeObject<dynamic>(jsonStr);
-
-            string userid = objParams.userid;
-            string userpwd = objParams.userpwd;
             var searchUser = _context.User.FirstOrDefault(
-                m => m.userid == userid && m.userpwd == userpwd);
+                m => m.userid == user.userid && m.userpwd == user.userpwd);
 
             if (searchUser != null)
             {
@@ -171,7 +164,6 @@ namespace MPBackends.Controllers
             {
                 return Json(new { status = 0 });
             }
-
         }
 
         //GET: MuseumTourBackEnd/User/Details
