@@ -159,7 +159,9 @@ namespace MPBackends.Controllers
         [Route("CollectionAllDetails")]
         public JsonResult CollectionAllDetails([FromQuery] int midex)
         {
-            return Json(_context.Collection.Where(m => m.midex == midex).ToList());
+            return Json(new {
+                content = _context.Collection.Where(m => m.midex == midex).ToList()
+            });
         }
     }
 }
